@@ -1,3 +1,69 @@
 Research and analyze which of the vulnerabilities appear to be related to the code that was deployed for the environment in this project.
 
 Bonus - provide recommendations on how to remediate the vulnerabilities.
+
+## AWS Config: Non Compliant Rules 
+
+
+Rule: securityhub-s3-bucket-logging-enabled-43f42e6d
+Details:  Checks whether logging is enabled for your S3 buckets. 
+Resources: S3 free recipes, secret recipes, VPC flow log bucket 
+
+Rule: securityhub-s3-bucket-ssl-requests-only-c62adeac
+Description:  Checks whether S3 buckets have policies that require requests to use Secure Socket Layer (SSL). 
+Resources: All S3 buckets
+
+Rule: securityhub-s3-bucket-server-side-encryption-enabled-e3f7bbd8
+Description:  Checks that your Amazon S3 bucket either has Amazon S3 default encryption enabled or that the S3 bucket policy explicitly denies put-object requests without server side encryption.
+Resources: All S3 buckets
+Remediation: Check option default encryption
+
+Rule: securityhub-guardduty-enabled-centralized-2f6b51d2
+Description:  This AWS control checks whether Amazon GuardDuty is enabled in your AWS account and region. 
+Resource: Account
+
+Rule: securityhub-ec2-instance-managed-by-ssm-fd637fad
+Description:  Checks whether the Amazon EC2 instances in your account are managed by AWS Systems Manager. 
+Resource: EC2 Web Service Instance, Attack Instance
+
+Rule: securityhub-encrypted-volumes-cee93d27
+Description:  Checks whether the EBS volumes that are in an attached state are encrypted. If you specify the ID of a KMS key for encryption using the kmsId parameter, the rule checks if the EBS volumes in an attached state are encrypted with that KMS key. 
+Resource: EC2 Volume 
+
+Rule: securityhub-alb-http-to-https-redirection-check-2f913be5
+Description:  Checks whether HTTP to HTTPS redirection is configured on all HTTP listeners of Application Load Balancers. The rule is NON_COMPLIANT if one or more HTTP listeners of Application Load Balancers do not have HTTP to HTTPS redirection configured. 
+Resource: ElasticLoadBalancingV2 LoadBalancer Web service
+
+## Amazon Inspector - Findings 
+### Rules Package: Security Best Practices-1.0 
+
+Finding: EC2 Instance i-002c36b83d5d9ba4b is configured to allow users to log in with root credentials over SSH, without having to use a command authenticated by a public key. This increases the likelihood of a successful brute-force attack.
+Description: This rule helps determine whether the SSH daemon is configured to permit logging in to your EC2 instance as root.
+Remediation: To disable SSH root account logins
+
+Finding: No password complexity mechanism or restrictions are configured on instance i-002c36b83d5d9ba4b in your assessment target. This allows users to set simple passwords, thereby increasing the chances of unauthorized users gaining access and misusing accounts.
+Description: This rule helps determine whether a password complexity mechanism is configured on your EC2 instances.
+recommendations: configure all EC2 instances in your assessment target to require a level of password complexity.
+
+Finding Minimum length for passwords is not configured on instance i-002c36b83d5d9ba4b in your assessment target.
+recommendations: onfigure minimum length for passwords on all EC2 instances in your assessment target
+
+Finding Instance i-002c36b83d5d9ba4b is configured to support password authentication over SSH. Password authentication is susceptible to brute-force attacks and should be disabled in favor of key-based authentication where possible.
+Description: This rule helps determine whether your EC2 instances are configured to support password authentication over the SSH protocol.
+Recommendation: Disable password authentication over SSH on your EC2 instances and enable support for key-based authentication instead.
+
+### Rules package: Network Reachability-1.1 
+
+Finding: On instance i-002c36b83d5d9ba4b, process 'systemd-netwo' is listening on UDP port 68 which is associated with 'DHCP' and is reachable from the internet
+Description: On this instance, UDP port 68, which is associated with DHCP, is reachable from the internet with a process listening on the port. 
+Recommendation: You can edit the Security Group sg-0bea877ffc04f2078 to remove access from the internet on port 68
+
+Finding On instance i-002c36b83d5d9ba4b, process 'sshd' is listening on TCP port 22 which is associated with 'SSH' and is reachable from the internet
+Description: On this instance, TCP port 22, which is associated with SSH, is reachable from the internet with a process listening on the port. 
+Recommendation: You can edit the Security Group sg-0bea877ffc04f2078 to remove access from the internet on port 22
+
+### Security Hub
+
+4.1 Ensure no security groups allow ingress from 0.0.0.0/0 to port 22
+Security groups provide stateful filtering of ingress/egress network traffic to AWS resources. It is recommended that no security group allows unrestricted ingress access to port 22.
+Attack Instance sg
