@@ -1,5 +1,14 @@
-
-
 # Identify 2-3 changes that can be made to our environment to prevent an ssh brute force attack from the internet.
 
+- Remove SSH inbound rule on the WebAppSG Security Group.
+- Create a private subnet inside the VPC to host the Web Service instance and allow inbound traffic from the application load balancer
+- Update Network ACL in the private subnet to block inbound SSH traffic, 
+- Block traffic from 0.0.0.0/0 except from port 80 (to effectively block port Range 22)
+- Update the AppLoadBalancerSG to only allow outbound traffic to the WebAppSG
+- Update Security Group to 
+
 # Neither instance should have had access to the secret recipes bucket, in the even that instance API credentials were compromised how could we have prevented access to sensitive data.
+- Allow Default encryption
+- Update S3 bucket policy to only allow Read operations from a specific instance. 
+- Update the c3-app-InstanceRole IAM role policy to only allow read opeations to the S3 public recipe buckets (resource).
+

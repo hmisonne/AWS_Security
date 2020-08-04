@@ -37,33 +37,26 @@ Resource: ElasticLoadBalancingV2 LoadBalancer Web service
 ## Amazon Inspector - Findings 
 ### Rules Package: Security Best Practices-1.0 
 
-Finding: EC2 Instance i-002c36b83d5d9ba4b is configured to allow users to log in with root credentials over SSH, without having to use a command authenticated by a public key. This increases the likelihood of a successful brute-force attack.
+Finding: Web Service EC2 Instance is configured to allow users to log in with root credentials over SSH, without having to use a command authenticated by a public key. This increases the likelihood of a successful brute-force attack.
 Description: This rule helps determine whether the SSH daemon is configured to permit logging in to your EC2 instance as root.
 Remediation: To disable SSH root account logins
 
-Finding: No password complexity mechanism or restrictions are configured on instance i-002c36b83d5d9ba4b in your assessment target. This allows users to set simple passwords, thereby increasing the chances of unauthorized users gaining access and misusing accounts.
-Description: This rule helps determine whether a password complexity mechanism is configured on your EC2 instances.
-recommendations: configure all EC2 instances in your assessment target to require a level of password complexity.
-
-Finding Minimum length for passwords is not configured on instance i-002c36b83d5d9ba4b in your assessment target.
-recommendations: onfigure minimum length for passwords on all EC2 instances in your assessment target
-
-Finding Instance i-002c36b83d5d9ba4b is configured to support password authentication over SSH. Password authentication is susceptible to brute-force attacks and should be disabled in favor of key-based authentication where possible.
+Finding: Web Service EC2 Instance is configured to support password authentication over SSH. Password authentication is susceptible to brute-force attacks and should be disabled in favor of key-based authentication where possible.
 Description: This rule helps determine whether your EC2 instances are configured to support password authentication over the SSH protocol.
 Recommendation: Disable password authentication over SSH on your EC2 instances and enable support for key-based authentication instead.
 
 ### Rules package: Network Reachability-1.1 
 
-Finding: On instance i-002c36b83d5d9ba4b, process 'systemd-netwo' is listening on UDP port 68 which is associated with 'DHCP' and is reachable from the internet
-Description: On this instance, UDP port 68, which is associated with DHCP, is reachable from the internet with a process listening on the port. 
+Finding: On Web Service EC2 Instance, process 'systemd-netwo' is listening on UDP port 68 which is associated with 'DHCP' and is reachable from the internet
 Recommendation: You can edit the Security Group sg-0bea877ffc04f2078 to remove access from the internet on port 68
 
-Finding On instance i-002c36b83d5d9ba4b, process 'sshd' is listening on TCP port 22 which is associated with 'SSH' and is reachable from the internet
-Description: On this instance, TCP port 22, which is associated with SSH, is reachable from the internet with a process listening on the port. 
+Finding: On Web Service EC2 Instance, process 'sshd' is listening on TCP port 22 which is associated with 'SSH' and is reachable from the internet
 Recommendation: You can edit the Security Group sg-0bea877ffc04f2078 to remove access from the internet on port 22
 
 ### Security Hub
 
-4.1 Ensure no security groups allow ingress from 0.0.0.0/0 to port 22
-Security groups provide stateful filtering of ingress/egress network traffic to AWS resources. It is recommended that no security group allows unrestricted ingress access to port 22.
-Attack Instance sg
+Finding: S3 Secret + Free Recipe + VPC flow log buckets should have server-side encryption enabled: 
+
+Finding: security groups WebAppSG allow ingress from 0.0.0.0/0 to port 3389 & 22
+
+Finding: Attached EBS volumes should be encrypted at-rest for the Web Service Instance

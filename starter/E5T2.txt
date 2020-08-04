@@ -2,12 +2,41 @@
 
 ## Scan infrastructure as code templates
 
+### Appropriate Tools:
+
+- Checkov
+- TFLint
+- Terrafirma
+- Accurics
+- CloudSploit
+
+
 ### Example vulnerability
+- VPC flow logging disabled
+- VPC security group rules ingress from '0.0.0.0/0' traffic not restricted 
+- S3 bucket not encrypted
+- EBS volume encryption disabled
 
 ##Scan AMI’s or containers for OS vulnerabilities
 
+### Appropriate Tools:
+- Anchore
+- Dagda
+- OpenSCAP
+- Sysdig Falco
+
 ### Example vulnerability
+- Embedded clear text secrets
+- Use of untrusted images
+- Image Configuration Defects (image built from Dockerfiles that have exposed port 22)
 
 ##Scan an AWS environment for cloud configuration vulnerabilities
 
+### Appropriate Tools:
+- AWS Config
+- Cloud Custodian
+- Prowler
+
 ### Example vulnerability
+- Configuration changes on KMS, IAM policy
+- Data not encrypted
