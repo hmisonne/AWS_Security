@@ -1,8 +1,18 @@
 
 # What additional architectural change can be made to reduce the internet facing attack surface of the web application instance.
 
+- Move the web server instance from the public subnet to a private subnet
+- Add IAM policy to bucket to restrict read operation from a specific role.
+- Create Network ACL rules to ban specific traffic
+- Add a NAT gateway or a Web Proxy Layer to restrict egress traffic
+- Set up web Application Firewalls to block attacks such as Cloud Front.
+
 # Assuming the IAM permissions for the S3 bucket are still insecure, would creating VPC private endpoints for S3 prevent the unauthorized access to the secrets bucket.
+- Moving the endpoint for S3 to a private subnet would only prevent traffic coming from outside the VPC.
 
 # Will applying default encryption setting to the s3 buckets encrypt the data that already exists?
+- No, There is no change to the encryption of the objects that existed in the bucket before default encryption was enabled. 
 
 # What would happen if the original cloud formation templates are applied to this environment.
+- The new cloudformation will overwrite the changes done on the Security Groups, SSH password disabled, IAM role restrictions.
+In order to apply the changes to the environment, the cloudformation template would need to be updated.
