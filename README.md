@@ -25,7 +25,9 @@ The S3 buckets should also have bucket policy that allows only specific role to 
 
 ## Exercise 2 - Identify Vulnerabilities By Reviewing Security Monitoring Tools
 
-#### AWS Config: Non Compliant Rules 
+#### AWS Config: Non Compliant Rules
+
+![E2T2_config](screenshots/E2T2_config.png)
 
 - Logging is enabled for S3 buckets
 - S3 buckets have policies that require requests to use Secure Socket Layer (SSL). 
@@ -36,6 +38,8 @@ The S3 buckets should also have bucket policy that allows only specific role to 
 - Checks whether HTTP to HTTPS redirection is configured on all HTTP listeners of Application Load Balancers.
 
 #### Amazon Inspector: Findings 
+
+![E2T2_inspector](screenshots/E2T2_inspector.png)
 
 - Web Service EC2 Instance is configured to allow users to log in with root credentials over SSH, without having to use a command authenticated by a public key. This increases the likelihood of a successful brute-force attack.
 	- Recommendation: disable SSH root account logins
@@ -75,13 +79,24 @@ Capturing secret recipe files from the s3 bucket using stolen API keys.
 - Update Network ACL in the private subnet to block inbound SSH traffic, 
 - Block traffic from 0.0.0.0/0 except from port 80 (to effectively block port Range 22)
 - Update the AppLoadBalancerSG to only allow outbound traffic to the WebAppSG
-- Update Security Group to 
 
 2. Neither instance should have had access to the secret recipes bucket, in the even that instance API credentials were compromised how could we have prevented access to sensitive data.
 
 - Allow Default encryption
 - Update S3 bucket policy to only allow Read operations from a specific instance. 
 - Update the c3-app-InstanceRole IAM role policy to only allow read opeations to the S3 public recipe buckets (resource).
+
+Update the IAM policy for the instance profile role used by the web application instance to only allow read access to the free recipes S3 bucket.
+![E4T2_s3iampolicy](screenshots/E4T2_s3iampolicy.png)
+
+Failed copy attempt following the updated IAM policy:
+![E4T2_s3copy](screenshots/E4T2_s3copy.png)
+
+Set up default encryption to S3 secret recipe bucket:
+![E4T2_s3encryption](screenshots/E4T2_s3encryption.png)
+
+Security Hub after reevaluating the number of findings:
+![E4T3_securityhub](screenshots/E4T3_securityhub.png)
 
 
 ### Questions and Analysis
